@@ -10,7 +10,7 @@ class AAPL(models.Model):
     close = models.IntegerField()
 
 class Meta:
-    ordering = ("-date",)
+    ordering = ("-date")
 
 def __str__(self):
     pass
