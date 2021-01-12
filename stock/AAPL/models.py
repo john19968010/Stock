@@ -4,7 +4,7 @@ from django.db import models
 
 class AAPL(models.Model):
     date = models.DateTimeField()
-    high = models.DateTimeField()
+    high = models.IntegerField()
     low = models.IntegerField()
     open = models.IntegerField()
     close = models.IntegerField()
