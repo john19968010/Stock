@@ -1,14 +1,15 @@
-from django.urls import path
-
+from django.urls import path,include
 from rest_framework import routers
-from . import views
+from AAPL.views import AAPLViewset
 
 router = routers.DefaultRouter()
-routers.register(r'AAPL',views.AAPLViewset)
+router.register(r"AAPL", AAPLViewset)
 
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('aapl/', include('rest_framework.urls', namespace='aapl'))
+    # path('aapl/', include('rest_framework.urls', namespace='aapl'))
+
 ]
-]
+
+

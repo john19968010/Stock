@@ -1,7 +1,7 @@
-from django.contrib.auth.models import AAPL
 from rest_framework import serializers
 
-class AAPLSerializer(serializers.Serializers):
+
+class AAPLSerializer(serializers.Serializer):
     date = serializers.DateTimeField()
     high = serializers.IntegerField()
     low = serializers.IntegerField()
