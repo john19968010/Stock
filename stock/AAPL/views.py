@@ -13,6 +13,9 @@ class AAPLViewset(viewsets.ModelViewSet):
     serializer_class = AAPLSerializer
     
     def list(self):
-        a = [i for i in range(4)]
-
+        response = super().list
         return a
+
+    # @action(detail=False, action=["get"])
+    # def get_info(self, request):
+        
