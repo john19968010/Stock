@@ -3,7 +3,7 @@ from rest_framework import routers
 from AAPL.views import AAPLViewset
 
 router = routers.DefaultRouter()
-router.register(r"AAPL", AAPLViewset)
+router.register("", AAPLViewset)
 
 
 urlpatterns = [

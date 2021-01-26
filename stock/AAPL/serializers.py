@@ -7,3 +7,8 @@ class AAPLSerializer(serializers.Serializer):
     low = serializers.IntegerField()
     open = serializers.IntegerField()
     close = serializers.IntegerField()
+
+class AAPLResSerializer(serializers.Serializer):
+    status = serializers.CharField()
+    log = serializers.CharField()
+    results = AAPLSerializer()
