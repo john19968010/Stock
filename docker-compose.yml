@@ -13,3 +13,13 @@ services:
     image: redis:alpine
     restart: always
     container_name: redis
+
+  web:
+    build: .
+    command: python stock/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/stock
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

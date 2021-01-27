@@ -10,7 +10,7 @@ from AAPL.serializers import AAPLSerializer
 import yfinance as yf
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from drf_spectacular.types import OpenApiTypes
-from AAPL.serializers import AAPLResSerializer
+from AAPL.serializers import AAPLResSerializer, AAPLReqSerializer
 
 class AAPLViewset(viewsets.ModelViewSet):
     queryset = AAPL.objects.all().order_by("date")
@@ -21,21 +21,26 @@ class AAPLViewset(viewsets.ModelViewSet):
     #     return response
     @extend_schema(
         summary="Get current AAPL price",
+        request=AAPLReqSerializer,
         responses=AAPLResSerializer,
     )
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=["post"])
     def get_info(self, request):
         try:
             response = {
                 "status" : "FAILURE",
                 "log" : ""
             }
+            stock = request.data.get("stock")
+            if not stock:
+                raise Exception("Stock name is reqired")
             day = datetime.now()
             current_date = f"{day.year}-{day.month}-{day.day-3}"
-            current_date_end = f"{day.year}-{day.month}-{day.day-2}"
-            print(current_date)
-            data = yf.download("AAPL", start=current_date, end=current_date_end)
+            current_date_end = f"{day.year}-{day.month}-{day.day-1}"
+            data = yf.download(stock, start=current_date, end=current_date_end)
             dict1 = data.to_dict(orient="index")
+            if not dict1:
+                raise Exception("Stock name could not found")
             for _, value in dict1.items():
                 response["results"] = {}
                 response["results"]["date"] = current_date

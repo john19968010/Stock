@@ -12,3 +12,6 @@ class AAPLResSerializer(serializers.Serializer):
     status = serializers.CharField()
     log = serializers.CharField()
     results = AAPLSerializer()
+
+class AAPLReqSerializer(serializers.Serializer):
+    stock = serializers.CharField()
