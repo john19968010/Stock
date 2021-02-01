@@ -15,8 +15,10 @@ services:
     container_name: redis
 
   web:
+    container_name: stock
     build: .
     command: python stock/manage.py runserver 0.0.0.0:8000
+
     volumes:
       - .:/stock
     ports:

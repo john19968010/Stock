@@ -4,3 +4,4 @@ WORKDIR /stock
 COPY requirements.txt /stock/
 RUN pip3 install -r requirements.txt
 COPY . /stock/
+CMD ["sh","entrypoint.sh"]

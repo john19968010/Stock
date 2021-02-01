@@ -2,28 +2,35 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from AAPL.models import AAPL
 from rest_framework import viewsets, status
+
+
+
 from rest_framework.decorators import action
 from AAPL.tasks.dispatch_get_info import get_aapl_info
 from rest_framework.response import Response
 from datetime import datetime
-from AAPL.serializers import AAPLSerializer
 import yfinance as yf
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from drf_spectacular.types import OpenApiTypes
-from AAPL.serializers import AAPLResSerializer, AAPLReqSerializer
+from AAPL.serializers import PortfolioResSerializer, PortfolioReqSerializer, PortfolioSerializer
 
 class AAPLViewset(viewsets.ModelViewSet):
     queryset = AAPL.objects.all().order_by("date")
-    serializer_class = AAPLSerializer
+    serializer_class = PortfolioSerializer
     
     # def list(self):
     #     response = super().list(request, args, kwargs)
     #     return response
     @extend_schema(
         summary="Get current AAPL price",
-        request=AAPLReqSerializer,
-        responses=AAPLResSerializer,
+        request=PortfolioReqSerializer,
+        responses=PortfolioResSerializer,
     )
+
+    
+
+
+
     @action(detail=False, methods=["post"])
     def get_info(self, request):
         try:
