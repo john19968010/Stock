@@ -1,27 +1,33 @@
 version: "3.9"
    
 services:
+  web:
+    image: stock:prod
+    container_name: stock
+    network_mode: "host"
+    volumes:
+      - ./:/stock
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        cd stock
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+
   db:
-    image: postgres
+    image: postgres:12
+    container_name: db
     restart: always
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    network_mode: "host"
 
   redis:
     image: redis:alpine
     restart: always
     container_name: redis
-
-  web:
-    container_name: stock
-    build: .
-    command: python stock/manage.py runserver 0.0.0.0:8000
-
-    volumes:
-      - .:/stock
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
+    network_mode: "host"
+    

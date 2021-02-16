@@ -2,9 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from AAPL.models import AAPL
 from rest_framework import viewsets, status
-
-
-
+from django.core.cache import cache
 from rest_framework.decorators import action
 from AAPL.tasks.dispatch_get_info import get_aapl_info
 from rest_framework.response import Response
@@ -26,6 +24,20 @@ class AAPLViewset(viewsets.ModelViewSet):
         request=PortfolioReqSerializer,
         responses=PortfolioResSerializer,
     )
+    def post(self, request, *args, **kwargs):
+        try:
+            response = {
+                "status" : "FAILURE",
+                "log" : ""
+            }
+            data = request.data
+            for key, value in data.items:
+                cache.set(key, value, timeout=0)
+            response["status"] = "SUCCESS"
+            response["log"] = "Set value in redis successfully"
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            response["log"] = str(e)
 
     
 

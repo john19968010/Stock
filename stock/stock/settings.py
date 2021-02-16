@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AAPL',
     'django_celery_results',
-    'drf_spectacular'
+    'drf_spectacular',
+    'redis_cache'
 ]
 
 MIDDLEWARE = [
@@ -87,7 +88,7 @@ DATABASES = {
         'NAME': "postgres",
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '172.19.0.2',
+        'HOST': 'localhost',
         'PORT': "5432",
     }
 }
@@ -100,24 +101,27 @@ SESSION_CACHE_ALIAS = 'default'
 
 # CELERY settings
 
-BROKER_URL = "redis://172.19.0.3:6379/0"
-CELERY_RESULT_BACKEND = 'redis://172.19.0.3:6379/0'
-# CELERY_CACHE_BACKEND = 'redis://172.19.0.3:6379/0'
+# BROKER_URL = "redis://172.19.0.3:6379/0"
+# CELERY_RESULT_BACKEND = 'redis://172.19.0.3:6379/0'
+# # CELERY_CACHE_BACKEND = 'redis://172.19.0.3:6379/0'
 
-CELERY_TIMEZONE = 'Asia/Taipei'
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
+# CELERY_TIMEZONE = 'Asia/Taipei'
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# django-redis
+#django-redis
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://172.19.0.3:6379/0',
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': 'localhost:6379/0',
         'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }
     }
 }
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

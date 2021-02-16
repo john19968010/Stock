@@ -1,7 +1,5 @@
-FROM python:3.6.8-slim-stretch
+FROM python:3.9.1-slim
 ENV PYTHONUNBUFFERED=1
 WORKDIR /stock
-COPY requirements.txt /stock/
+COPY . /stock
 RUN pip3 install -r requirements.txt
-COPY . /stock/
-CMD ["sh","entrypoint.sh"]
